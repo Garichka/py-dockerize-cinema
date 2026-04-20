@@ -97,11 +97,11 @@ DATABASES = {
 }
 
 
-STATIC_URL = "static/"
-STATIC_ROOT = "/vol/web/static"
-MEDIA_URL = "media/"
-MEDIA_ROOT = "/vol/web/media"
+STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
 
+STATIC_ROOT = "/vol/web/static"
+MEDIA_ROOT = "/vol/web/media"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

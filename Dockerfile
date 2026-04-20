@@ -6,9 +6,18 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
+    bash \
+    gosu \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libc6-dev \
-    bash \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apt-get purge -y --auto-remove gcc libc6-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -17,9 +26,10 @@ RUN adduser --disabled-password --no-create-home --shell /bin/bash django-user &
     chown -R django-user:django-user /vol && \
     chmod -R 755 /vol
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+RUN chown -R django-user:django-user /app
 
-COPY --chown=django-user:django-user . .
+COPY ./scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-USER django-user
+ENTRYPOINT ["/entrypoint.sh"]
