@@ -12,14 +12,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN adduser --disabled-password --no-create-home --shell /bin/bash django-user && \
+    mkdir -p /vol/web/media /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
-
-RUN mkdir -p /vol/web/media /vol/web/static && \
-    adduser --disabled-password --no-create-home --shell /bin/bash django-user && \
-    chown -R django-user:django-user /app /vol && \
-    chmod -R 755 /vol
+COPY --chown=django-user:django-user . .
 
 USER django-user

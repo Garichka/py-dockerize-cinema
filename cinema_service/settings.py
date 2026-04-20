@@ -97,9 +97,9 @@ DATABASES = {
 }
 
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 STATIC_ROOT = "/vol/web/static"
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 MEDIA_ROOT = "/vol/web/media"
 
 
